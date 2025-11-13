@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EarnLink - Premium App-Like Experience</title>
+
+<!-- Tailwind CSS -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
+
+<!-- Font Awesome -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<!-- Particles.js -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+<style>
+body {
+  margin:0;
+  font-family:'Poppins', sans-serif;
+  overflow-x:hidden;
+  transition: background 0.5s, color 0.5s;
+}
+
+/* Dark & Light Mode Colors */
+body.light-mode { background: linear-gradient(135deg,#ff9a9e,#fad0c4); color: #000;}
+body.dark-mode { background: linear-gradient(135deg,#1f005c,#5b0060); color: #fff;}
+
+/* Hero Section */
+.hero { height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; position:relative; overflow:hidden;}
+.hero h1 { font-size:4rem; opacity:0; animation:fadeInUp 1s forwards; animation-delay:0.3s;}
+.hero p { font-size:1.5rem; margin-top:1rem; opacity:0; animation:fadeInUp 1s forwards; animation-delay:0.6s;}
+.btn-animated { background: linear-gradient(90deg,#ff416c,#ff4b2b); color:white; transition:0.3s; font-weight:bold;}
+.btn-animated:hover { transform:scale(1.05); box-shadow:0 5px 20px rgba(255,75,43,0.5); cursor:pointer;}
+
+/* Glass Cards */
+.glass { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius:1rem; padding:1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3); transition:0.3s; opacity:0; transform:translateY(20px);}
+.glass:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.4);}
+
+/* Animations */
+@keyframes fadeInUp {0% {opacity:0; transform:translateY(20px);} 100%{opacity:1; transform:translateY(0);} }
+
+/* Bottom Navigation */
+.bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: space-around; padding: 0.8rem 0; backdrop-filter: blur(10px); border-top-left-radius:1rem; border-top-right-radius:1rem; z-index:50;}
+.bottom-nav button { color: white; font-size: 1.3rem; transition:0.3s;}
+.bottom-nav button:hover { transform:scale(1.2); }
+
+/* Tabs */
+.tab-content { display:none; }
+.tab-active { display:block; }
+
+/* Logo */
+.logo { position: fixed; top: 1rem; left: 1rem; display:flex; align-items:center; gap:0.5rem; font-size:1.5rem; font-weight:bold; color: yellow; z-index: 50;}
+.logo img { width:40px; height:40px; }
+
+/* Testimonials Slider */
+.testimonial-card { min-width:250px; max-width:300px; margin:0 0.5rem; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding:1rem; border-radius:1rem; box-shadow:0 5px 15px rgba(0,0,0,0.3);}
+.testimonial-card p { font-size:0.95rem; }
+.testimonial-card h3 { font-weight:bold; margin-top:0.5rem; color:#FFD700; }
+.testimonial-container { display:flex; overflow-x:auto; scroll-behavior:smooth; gap:1rem; padding:1rem 0; }
+.testimonial-container::-webkit-scrollbar { display:none; }
+
+/* Particles and Floating shapes */
+#particles-js, .floating-shape { position:absolute; width:100%; height:100%; top:0; left:0; z-index:0; pointer-events:none; }
+
+.floating-shape { animation: floatShape 8s linear infinite; }
+@keyframes floatShape {0%{transform: translateY(0);}50%{transform:translateY(-30px);}100%{transform:translateY(0);}}
+</style>
+</head>
+<body class="dark-mode">
+
+<!-- Particles -->
+<div id="particles-js"></div>
+
+<!-- Floating Shapes -->
+<div class="floating-shape">
+  <div class="absolute w-6 h-6 bg-yellow-400 rounded-full" style="top:10%; left:20%;"></div>
+  <div class="absolute w-4 h-4 bg-pink-400 rounded-full" style="top:50%; left:70%;"></div>
+  <div class="absolute w-5 h-5 bg-purple-400 rounded-full" style="top:30%; left:40%;"></div>
+</div>
+
+<!-- Logo -->
+<div class="logo">
+<img src="https://i.ibb.co/YkFzQF4/earnlink-logo.png" alt="EarnLink Logo"> EarnLink
+</div>
+
+<!-- Dark/Light Toggle -->
+<button id="modeToggle" class="absolute top-5 right-5 px-3 py-1 rounded bg-yellow-400 text-black z-50">Toggle Mode</button>
+
+<!-- Hero/Login -->
+<section class="hero tab-content tab-active" id="home">
+<h1>Welcome to EarnLink</h1>
+<p>Sign in to start earning with referrals!</p>
+<div class="mt-6 flex flex-col gap-3 max-w-sm w-full z-10 relative">
+<button class="btn-animated px-4 py-2 rounded-2xl w-full" id="googleBtn"><i class="fab fa-google mr-2"></i> Continue with Google</button>
+<button class="btn-animated px-4 py-2 rounded-2xl w-full"><i class="fab fa-facebook-f mr-2"></i> Continue with Facebook</button>
+<input type="email" placeholder="Email" class="w-full p-2 rounded text-black mt-2">
+<input type="password" placeholder="Password" class="w-full p-2 rounded text-black">
+<button class="btn-animated px-4 py-2 rounded-2xl w-full mt-2" onclick="showTab('testimonials')">Sign In</button>
+</div>
+</section>
+
+<!-- Offers Section -->
+<section class="p-6 tab-content" id="offers">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="glass text-center"> <div class="text-5xl mb-2">🕒</div> <h2 class="font-bold text-xl mb-1">TimeBucks</h2> <p class="mb-2">Complete Surveys & Tasks</p> <button class="btn-animated px-4 py-2 rounded-lg mt-2">Join Now</button> </div>
+<div class="glass text-center"> <div class="text-5xl mb-2">⭐</div> <h2 class="font-bold text-xl mb-1">StarClicks</h2> <p class="mb-2">Read Articles & Earn Coins</p> <button class="btn-animated px-4 py-2 rounded-lg mt-2">Join Now</button> </div>
+<div class="glass text-center"> <div class="text-5xl mb-2">🐝</div> <h2 class="font-bold text-xl mb-1">Honeygain</h2> <p class="mb-2">Share Internet & Earn</p> <button class="btn-animated px-4 py-2 rounded-lg mt-2">Join Now</button> </div>
+</div>
+</section>
+
+<!-- Testimonials -->
+<section class="p-6 tab-content" id="testimonials">
+<h2 class="text-3xl font-bold mb-4 text-yellow-300 text-center">What Users Say</h2>
+<div class="testimonial-container" id="testimonial-slider">
+<div class="testimonial-card"> <p>"EarnLink made it easy for me to start earning online. Highly recommended!"</p> <h3>- Sara K.</h3> </div>
+<div class="testimonial-card"> <p>"I love how simple and app-like the website feels. Smooth experience."</p> <h3>- James T.</h3> </div>
+<div class="testimonial-card"> <p>"Amazing referral rewards. I keep coming back every day!"</p> <h3>- Priya M.</h3> </div>
+<div class="testimonial-card"> <p>"Fast payouts and awesome UI. Love EarnLink!"</p> <h3>- Ahmed R.</h3> </div>
+</div>
+</section>
+
+<!-- Bottom Navigation -->
+<div class="bottom-nav">
+<button onclick="showTab('home')"><i class="fas fa-home"></i></button>
+<button onclick="showTab('offers')"><i class="fas fa-gift"></i></button>
+<button onclick="showTab('testimonials')"><i class="fas fa-comments"></i></button>
+<button onclick="showTab('home')"><i class="fas fa-user"></i></button>
+</div>
+
+<!-- Hover Sound -->
+<audio id="hoverSound" src="https://www.soundjay.com/button/beep-07.mp3" preload="auto"></audio>
+
+<script>
+// ParticlesJS
+particlesJS("particles-js", {
+"particles": {
+"number": {"value": 80},
+"color": {"value": "#ffffff"},
+"shape": {"type": "circle"},
+"opacity": {"value": 0.2},
+"size": {"value": 3},
+"line_linked": {"enable": true,"distance": 150,"color": "#ffffff","opacity": 0.2,"width": 1},
+"move": {"enable": true,"speed": 2}
+}
+});
+
+// Tabs
+const tabs=['home','offers','testimonials'];
+function showTab(tab){ tabs.forEach(t=>document.getElementById(t).classList.remove('tab-active')); document.getElementById(tab).classList.add('tab-active'); }
+
+// Staggered Animation for Cards
+const observer = new IntersectionObserver((entries)=>{
+entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.style.opacity=1; entry.target.style.transform='translateY(0)'; } });
+}, {threshold:0.2});
+document.querySelectorAll('.glass').forEach(card=>observer.observe(card));
+
+// Testimonials Auto-Slider
+const slider=document.getElementById('testimonial-slider'); let scrollAmount=0;
+setInterval(()=>{ scrollAmount += 310; if(scrollAmount>=slider.scrollWidth){scrollAmount=0;} slider.scrollTo({left:scrollAmount, behavior:'smooth'}); },3000);
+
+// Dark/Light Mode Toggle
+const toggleBtn=document.getElementById('modeToggle'); toggleBtn.addEventListener('click',()=>{
+document.body.classList.toggle('light-mode'); document.body.classList.toggle('dark-mode');
+});
+
+// Hover Sound
+document.querySelectorAll('.btn-animated').forEach(btn=>{
+btn.addEventListener('mouseenter',()=>{ document.getElementById('hoverSound').play(); });
+});
+</script>
+
+</body>
+</html>
